@@ -7,20 +7,61 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="text-center">Store</h2>
-    <p class="text-center">Choose your items to enhance your adventure in Banania!</p>
-    <ul id="storeItemsList" class="list-group"></ul>
-    <p class="text-center">Your items:</p>
-    <ul id="userItemsList" class="list-group"></ul>
-</div>
+    <div class="container mt-5">
+        <h2 class="text-center">Store</h2>
+        <p class="text-center">Choose your items to enhance your adventure in Banania!</p>
+        <ul id="storeItemsList" class="list-group"></ul>
+        <p class="text-center">Your items:</p>
+        <ul id="userItemsList" class="list-group"></ul>
+    </div>
+
+    <div id="buyOverlay" onclick="closeOverlay()"></div>
+    <div id="buyCard" class="card">
+        <div class="card-body">
+            <h5 class="card-title">Comprar item?</h5>
+            <p class="card-text" style="color: red; display: none" id="buyError"></p>
+            <input type="number" class="form-control mb-3" placeholder="unidades" id="buyUnits">
+            <a class="card-link" onclick="buyItem()">Comprar</a>
+            <a class="card-link" onclick="closeOverlay()">Cancelar</a>
+        </div>
+    </div>
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="StoreScript.js"></script>
-
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="StoreScript.js"></script>
 </body>
+<style>
+    #buyOverlay{
+        display: none;
+        position: fixed;
+        top: 0%;
+        opacity: 20%;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        background-color: black;
+    }
+
+    #buyCard{
+        position: fixed;
+        top: 130%;
+        display: none;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 250px;
+        z-index: 3;
+        box-shadow: 3px 3px 10px black;
+    }
+
+    /*Suposo que hi ha classes específiques de bootstrap per fer això, de moment ho deixo així*/
+    .card-link{
+        cursor: pointer;
+    }
+    .list-group-item-action {
+        cursor: pointer;
+    }
+</style>
 
 </html>

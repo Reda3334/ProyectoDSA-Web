@@ -1,3 +1,18 @@
+$(document).ready(() => {
+    const urlParameters = new URLSearchParams(window.location.search);
+    const reason = urlParameters.get("reason");
+    if(reason != null){
+        if(reason == "unauthenticated"){
+            $("#top-error").text("Tiene que iniciar sesion antes de acceder a una página restringida.");
+        }else if(reason == "session-expired"){
+            $("#top-error").text("Su sesión ha expirado. Por favor, vuelva a iniciarla.")
+        }else{
+            $("#top-error").text("Redirigido a login, motivo: " + reason);
+        }
+        $("#top-error").show();
+    }
+})
+
 
 function register() {
     const username = $("#username").val();
