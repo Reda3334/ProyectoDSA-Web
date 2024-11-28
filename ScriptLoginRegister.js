@@ -34,7 +34,7 @@ function register() {
     console.log("Registering with:", { username, email });
     $("#registerLoading").show();
     $.ajax({
-         url: 'http://localhost:8080/dsaApp/users/register',
+         url: 'dsaApp/users/register',
          method: 'PUT',
          contentType: 'application/json',
          data: JSON.stringify({
@@ -64,7 +64,7 @@ function login() {
     $("#loginError").text("");
     $("#loginLoading").show();
     $.ajax({
-        url: 'http://localhost:8080/dsaApp/users/login',
+        url: 'dsaApp/users/login',
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({

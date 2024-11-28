@@ -1,6 +1,7 @@
 $(document).ready(() => {
     loadStoreItems();
     loadUserItems();
+    renderCoins();
 })
 
 let itemToBuy = null;
@@ -19,12 +20,32 @@ function goToLogin(reason = null){
     
 }
 
+// render the number of coins that the user has
+function renderCoins(){
+    const username = localStorage.getItem("username");
+    if(username == null){
+        goToLogin("unauthenticated");
+    }
+
+    $.ajax({
+        url: 'dsaApp/shop/money/' + username,
+        method: 'GET',
+
+        statusCode: {
+            200: (response) => {
+                $("#num-coins").text(response);
+            },
+            403: () => goToLogin("session-expired")
+        }
+    })
+}
+
 // Función para renderizar ítems
 function renderStoreItems(items, listId) {
     const list = $(listId);
     list.empty(); // Lo he usado para limpiar la lista antes de añadir nuevos elementos pa evitar errores
     items.forEach(item => {
-        list.append(`<li class="list-group-item list-group-item-action" onclick="storeItemClick('${item.name}')">${item.name} - ${item.price} coins</li>`);
+        list.append(`<li class="list-group-item list-group-item-action" onclick="storeItemClick('${item.name}')">${item.name} - ${item.price} <img src="images/coin.png" style="height: 1em"></li>`);
     });
 }
 
@@ -100,7 +121,7 @@ function closeOverlay(){
     itemToBuy = null
 }
 
-function buyItem(){
+function buyItem(pointerEvent){
     $("#buyError").hide();
     if(itemToBuy == null) return;
 
@@ -121,6 +142,8 @@ function buyItem(){
         statusCode: {
             200: () => {
                 itemToBuy = null;
+                createParticle(pointerEvent);
+                renderCoins();
                 loadUserItems();
                 closeOverlay();
             },
@@ -141,4 +164,39 @@ function buyItem(){
             }
         }
     })
+}
+
+
+async function createParticle(pointerEvent){
+    x = pointerEvent.clientX;
+    y = pointerEvent.clientY;
+    vx = 3;
+    vy = -10;
+
+    const particle = document.createElement('img');
+    particle.src = "images/coin.png";
+    particle.style.height = "1em";
+    particle.style.left = x;
+    particle.style.top = y;
+    document.body.appendChild(particle);
+
+    const body = document.body, html = document.documentElement;
+    const height = Math.max(body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+    setInterval(() => {
+        vy +=3;
+        x += vx;
+        y += vy;
+
+        particle.style.left = x;
+        particle.style.top = y;
+        console.log(y);
+        
+        if(y > height){
+            particle.remove();
+            return;
+        }
+
+    }, 50);
 }

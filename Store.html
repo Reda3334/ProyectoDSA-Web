@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h5">Banania</span>
+            <span class="me-2">
+                <img src="images/coin.png" style="height: 1.25rem">
+                <a id="num-coins" style="font-weight: bold"></a>
+            </span>
+        </div>
+    </nav>
     <div class="container mt-5">
         <h2 class="text-center">Store</h2>
         <p class="text-center">Choose your items to enhance your adventure in Banania!</p>
@@ -21,7 +30,7 @@
             <h5 class="card-title">Comprar item?</h5>
             <p class="card-text" style="color: red; display: none" id="buyError"></p>
             <input type="number" class="form-control mb-3" placeholder="unidades" id="buyUnits">
-            <a class="card-link" onclick="buyItem()">Comprar</a>
+            <a class="card-link" onclick="buyItem(event)">Comprar</a>
             <a class="card-link" onclick="closeOverlay()">Cancelar</a>
         </div>
     </div>
@@ -53,6 +62,12 @@
         width: 250px;
         z-index: 3;
         box-shadow: 3px 3px 10px black;
+    }
+
+    .particle {
+        position: fixed;
+        left: 0;
+        top: 0;
     }
 
     /*Suposo que hi ha classes específiques de bootstrap per fer això, de moment ho deixo així*/
