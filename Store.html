@@ -7,21 +7,26 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <nav class="navbar bg-body-tertiary">
+    <nav class="navbar bg-light" style="flex: 0 1 auto">
         <div class="container-fluid">
             <span class="navbar-brand mb-0 h5">Banania</span>
-            <span class="me-2">
-                <img src="images/coin.png" style="height: 1.25rem">
-                <a id="num-coins" style="font-weight: bold"></a>
-            </span>
+            <div>
+                <button class="mr-2 btn btn-light" id="username-btn"></button>
+                <span>
+                    <img src="images/coin.png" style="height: 1.25rem">
+                    <a id="num-coins" style="font-weight: bold"></a>
+                </span>
+            </div>
+            
         </div>
     </nav>
-    <div class="container mt-5">
-        <h2 class="text-center">Store</h2>
-        <p class="text-center">Choose your items to enhance your adventure in Banania!</p>
+    <div class="container mt-5" style="flex: 1 1 auto">
+        <h2 class="text-center">Inventario</h2>
+        <div class="card">
+            <div class="card-text d-flex m-3" id="inventory"></div>
+        </div>
+        <h2 class="text-center mt-5">Tienda</h2>
         <ul id="storeItemsList" class="list-group"></ul>
-        <p class="text-center">Your items:</p>
-        <ul id="userItemsList" class="list-group"></ul>
     </div>
 
     <div id="buyOverlay" onclick="closeOverlay()"></div>
@@ -41,6 +46,17 @@
     <script src="StoreScript.js"></script>
 </body>
 <style>
+    html, body {
+        height: 100%;
+        margin: 0px;
+        overflow: hidden;
+    }
+
+    body {
+        display: flex;
+        flex-flow: column;
+    }
+
     #buyOverlay{
         display: none;
         position: fixed;
@@ -64,10 +80,43 @@
         box-shadow: 3px 3px 10px black;
     }
 
+    #inventory{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    #inventory > div{
+        height: 4rem;
+        width: 4rem;
+        position: relative;
+        background: lightgray;
+        border-radius: 3px;
+    }
+    #inventory > div > img {
+        height: 4rem;
+        width: 4rem;
+        border-radius: 3px;
+        position: absolute;
+    }
+    #inventory > div > div {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: brown;
+        text-shadow: 2px 2px 2px lightslategray;
+        position: absolute;
+        text-align: right;
+        right: -0.2em;
+        bottom: -0.5em;
+    }
+
+
     .particle {
-        position: fixed;
-        left: 0;
-        top: 0;
+        position: absolute;
+        z-index: 10;
+        margin-top: -0.75 rem;
+        margin-left: -0.75 rem;
+        height: 1.5 rem;
+        filter: drop-shadow(-2px 2px 4px gray);
     }
 
     /*Suposo que hi ha classes específiques de bootstrap per fer això, de moment ho deixo així*/
@@ -76,6 +125,10 @@
     }
     .list-group-item-action {
         cursor: pointer;
+    }
+    .item-image{
+        height: 4rem;
+        border-radius: 3px;
     }
 </style>
 

@@ -5,6 +5,7 @@ $(document).ready(() => {
 })
 
 let itemToBuy = null;
+const storeItems = new Map();
 
 // Lista predeterminada de ítems
 const defaultItems = [
@@ -33,7 +34,7 @@ function renderCoins(){
 
         statusCode: {
             200: (response) => {
-                $("#num-coins").text(response);
+                $("#num-coins").text(Number.parseFloat(response).toFixed(2));
             },
             403: () => goToLogin("session-expired")
         }
@@ -44,8 +45,19 @@ function renderCoins(){
 function renderStoreItems(items, listId) {
     const list = $(listId);
     list.empty(); // Lo he usado para limpiar la lista antes de añadir nuevos elementos pa evitar errores
+    storeItems.clear();
     items.forEach(item => {
-        list.append(`<li class="list-group-item list-group-item-action" onclick="storeItemClick('${item.name}')">${item.name} - ${item.price} <img src="images/coin.png" style="height: 1em"></li>`);
+        storeItems.set(item.name, item);
+        list.append(`<li class="list-group-item list-group-item-action d-flex" onclick="storeItemClick('${item.name}')">
+                        <img src="${item.URL}" class="item-image mr-2">
+                        <div style="flex-grow: 1">
+                            <div class="justify-content-between d-flex">
+                                <h5>${item.name}</h5>
+                                <span>${item.price} <img src="images/coin.png" style="height: 1em"></span>
+                            </div>
+                            <p class="mb-0">{{descripció}}</p>
+                        </div>
+                    </li>`);
     });
 }
 
@@ -59,22 +71,25 @@ function loadStoreItems() {
             if (items) {
                 renderStoreItems(items, "#storeItemsList"); // Renderiza los ítems recibidos del backend
             } else {
-                alert("No items received from the server. Showing default items.");
                 renderStoreItems(defaultItems, "#storeItemsList");
             }
         },
         error: function () {
-            alert("Error loading items from the server. Showing default items.");
             renderStoreItems(defaultItems, "#storeItemsList");
         }
     });
 }
 
-function renderUserItems(items, listId) {
-    const list = $(listId);
-    list.empty(); // Lo he usado para limpiar la lista antes de añadir nuevos elementos pa evitar errores
+function renderUserItems(items) {
+    const inventory = $("#inventory");
+    inventory.empty(); // Lo he usado para limpiar la lista antes de añadir nuevos elementos pa evitar errores
     items.forEach(item => {
-        list.append(`<li class="list-group-item">${item.name} - quantity: ${item.quantity}</li>`);
+        inventory.append(`
+            <div>
+                <img src="${storeItems.get(item.name).URL}">
+                <div>${item.quantity}</div>
+            </div>
+            `);
     });
 }
 
@@ -86,10 +101,9 @@ function loadUserItems() {
         statusCode: {
             200: (items) => {
                 if (items) {
-                    renderUserItems(items, "#userItemsList"); // Renderiza los ítems recibidos del backend
+                    renderUserItems(items); // Renderiza los ítems recibidos del backend
                 } else {
-                    alert("No items received from the server. Showing default items.");
-                    renderUserItems(defaultItems, "#userItemsList");
+                    alert("No items received from the server");
                 }
             },
             403: () => {
@@ -112,6 +126,7 @@ function storeItemClick(itemName){
     $("#buyCard").animate({top: '50%'}, 150);
     $("#buyCard div h5").text("Comprar " + itemName);
     $("#buyCard div div p").text("Cuántas unidades quieres?");
+    $("#buyUnits").val(1)
     itemToBuy = itemName
 }
 
@@ -142,7 +157,7 @@ function buyItem(pointerEvent){
         statusCode: {
             200: () => {
                 itemToBuy = null;
-                createParticle(pointerEvent);
+                createParticles(10, pointerEvent);
                 renderCoins();
                 loadUserItems();
                 closeOverlay();
@@ -166,37 +181,41 @@ function buyItem(pointerEvent){
     })
 }
 
+function createParticles(num, pointerEvent){
+    for(let i = 0; i < num; i++){
+        createParticle(pointerEvent);
+    }
+}
 
 async function createParticle(pointerEvent){
-    x = pointerEvent.clientX;
-    y = pointerEvent.clientY;
-    vx = 3;
-    vy = -10;
+    let x = pointerEvent.clientX;
+    let y = pointerEvent.clientY;
+    let vx = Math.random() * 10 - 5;
+    let vy = -20 + Math.random() * 10;
 
-    const particle = document.createElement('img');
+    let particle = document.createElement('img');
     particle.src = "images/coin.png";
-    particle.style.height = "1em";
-    particle.style.left = x;
-    particle.style.top = y;
-    document.body.appendChild(particle);
+    particle.style.height = "1rem";
+    particle.classList.add("particle");
+    particle.style.left = x + "px";
+    particle.style.top = y + "px";
+    document.documentElement.appendChild(particle);
 
-    const body = document.body, html = document.documentElement;
-    const height = Math.max(body.scrollHeight, body.offsetHeight,
-        html.clientHeight, html.scrollHeight, html.offsetHeight);
+    let height = window.innerHeight;
 
-    setInterval(() => {
-        vy +=3;
+    let interval = setInterval(() => {
+        vy += 1;
         x += vx;
         y += vy;
 
-        particle.style.left = x;
-        particle.style.top = y;
+        particle.style.left = x + "px";
+        particle.style.top = y + "px";
         console.log(y);
         
         if(y > height){
             particle.remove();
-            return;
+            clearInterval(interval)
         }
 
-    }, 50);
+    }, 20);
 }
