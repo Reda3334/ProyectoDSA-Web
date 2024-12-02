@@ -11,16 +11,16 @@
         <div class="container-fluid">
             <span class="navbar-brand mb-0 h5">Banania</span>
             <div>
-                <button class="mr-2 btn btn-light" id="username-btn"></button>
+                <button class="mr-2 btn btn-light" id="username-btn" data-toggle="popover" data-html="true" data-placement="bottom"></button>
                 <span>
                     <img src="images/coin.png" style="height: 1.25rem">
-                    <a id="num-coins" style="font-weight: bold"></a>
+                    <span id="num-coins" style="font-weight: bold; vertical-align: middle"></span>
                 </span>
             </div>
             
         </div>
     </nav>
-    <div class="container mt-5" style="flex: 1 1 auto">
+    <div class="container mt-5" style="flex: 1 1 auto; overflow-y: auto">
         <h2 class="text-center">Inventario</h2>
         <div class="card">
             <div class="card-text d-flex m-3" id="inventory"></div>
@@ -88,6 +88,7 @@
     #inventory > div{
         height: 4rem;
         width: 4rem;
+        display: block;
         position: relative;
         background: lightgray;
         border-radius: 3px;
@@ -108,7 +109,6 @@
         right: -0.2em;
         bottom: -0.5em;
     }
-
 
     .particle {
         position: absolute;

@@ -1,11 +1,23 @@
-$(document).ready(() => {
-    loadStoreItems();
-    loadUserItems();
-    renderCoins();
-})
-
 let itemToBuy = null;
 const storeItems = new Map();
+let username
+
+$(function () {
+    $('[data-toggle="popover"]').popover()
+})
+
+$(document).ready(() => {
+    username = localStorage.getItem("username");
+    if(username == null){
+        goToLogin("unauthenticated");
+        return;
+    }
+    $("#username-btn").text(username);
+    renderPoints();
+    renderCoins();
+    loadStoreItems();
+    loadUserItems();
+})
 
 // Lista predeterminada de ítems
 const defaultItems = [
@@ -21,13 +33,21 @@ function goToLogin(reason = null){
     
 }
 
+function renderPoints(){
+    $.ajax({
+        url: 'dsaApp/users/puntos/' + username,
+        method: 'GET',
+        statusCode: {
+            200: (response) => {
+                $("#username-btn").attr("data-content", `<strong>Puntos:</strong> ${response}`);
+            },
+            403: () => goToLogin("session-expired")
+        }
+    })
+}
+
 // render the number of coins that the user has
 function renderCoins(){
-    const username = localStorage.getItem("username");
-    if(username == null){
-        goToLogin("unauthenticated");
-    }
-
     $.ajax({
         url: 'dsaApp/shop/money/' + username,
         method: 'GET',
@@ -94,7 +114,6 @@ function renderUserItems(items) {
 }
 
 function loadUserItems() {
-    const username = localStorage.getItem("username");
     $.ajax({
         url: 'dsaApp/users/getObjects/' + username,
         method: 'GET',
@@ -140,10 +159,6 @@ function buyItem(pointerEvent){
     $("#buyError").hide();
     if(itemToBuy == null) return;
 
-    const username = localStorage.getItem("username");
-    if(username == null){
-        goToLogin("unauthenticated");
-    }
     const units = Number($("#buyUnits").val());
     if(isNaN(units) || !Number.isInteger(units) || units <= 0){
         $("#buyError").text("Número inválido! Introduzca un entero mayor que 0");
@@ -210,7 +225,6 @@ async function createParticle(pointerEvent){
 
         particle.style.left = x + "px";
         particle.style.top = y + "px";
-        console.log(y);
         
         if(y > height){
             particle.remove();
