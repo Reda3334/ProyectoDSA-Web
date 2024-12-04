@@ -33,6 +33,10 @@ function goToLogin(reason = null){
     
 }
 
+function exitStore(){
+    window.location.href = "index.html"
+}
+
 function renderPoints(){
     $.ajax({
         url: 'dsaApp/users/puntos/' + username,

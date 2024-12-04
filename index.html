@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="MainScript.js"></script>
+        <title>Banania</title>
+    </head>
+    <body>
+        <nav class="navbar bg-light" style="flex: 0 1 auto">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h5">Banania</span>
+                <button class="btn btn-error" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </nav>
+
+        <div class="container container-sm mt-5">
+            <div class="card p-3">
+                <h1 id="username" class="text-center"></h1>
+                <p><strong>puntos: </strong><span id="points"></span></p>
+                <button class="btn btn-primary" onclick="window.location.href = 'Store.html'"> Ir a la tienda</button>
+            </div>
+        </div>
+    </body>
+</html>

@@ -46,7 +46,7 @@ function register() {
         success: function (response) {
             $("#registerLoading").hide();
             localStorage.setItem('username', username);
-            window.location.href = 'Store.html';  // Esto es para que me redirija al store
+            window.location.href = 'index.html'; 
         },
         error: function () {
             alert("Error registering. Please try again.");
@@ -83,7 +83,7 @@ function login() {
             200: () => {
                 $("#loginLoading").hide();
                 localStorage.setItem('username', loginUsername); // Save username
-                window.location.href = 'Store.html';
+                window.location.href = 'index.html';
             }
         }
     });
