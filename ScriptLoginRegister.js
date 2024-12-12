@@ -46,6 +46,7 @@ function register() {
         success: function (response) {
             $("#registerLoading").hide();
             localStorage.setItem('username', username);
+            localStorage.setItem('userID', response.ID);
             window.location.href = 'index.html'; 
         },
         error: function () {
@@ -80,9 +81,11 @@ function login() {
                 $("#loginLoading").hide();
                 $("#loginError").text("Error interno, vuelve a intentar");
             },
-            200: () => {
+            200: (response) => {
                 $("#loginLoading").hide();
+                console.log(response);
                 localStorage.setItem('username', loginUsername); // Save username
+                localStorage.setItem('userID', response.ID);
                 window.location.href = 'index.html';
             }
         }

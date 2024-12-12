@@ -1,6 +1,8 @@
 let username;
+let userID;
 $(document).ready(() => {
     username = localStorage.getItem("username");
+    userID = localStorage.getItem("userID");
     if(username == null){
         goToLogin("unauthenticated");
         return;
@@ -11,6 +13,7 @@ $(document).ready(() => {
 
 function logout(){
     localStorage.removeItem("username");
+    localStorage.removeItem("userID");
     goToLogin();
 }
 
@@ -26,7 +29,7 @@ function goToLogin(reason = null){
 function drawUserInfo(){
     $("#username").text(username);
     $.ajax({
-        url: "dsaApp/users/puntos/" + username,
+        url: "dsaApp/users/puntos/" + userID,
         method: "GET",
         statusCode: {
             200: (response) => {

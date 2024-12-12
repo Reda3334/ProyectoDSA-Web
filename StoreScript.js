@@ -1,6 +1,7 @@
 let itemToBuy = null;
 const storeItems = new Map();
 let username
+let userID
 
 $(function () {
     $('[data-toggle="popover"]').popover()
@@ -8,6 +9,7 @@ $(function () {
 
 $(document).ready(() => {
     username = localStorage.getItem("username");
+    userID = localStorage.getItem("userID");
     if(username == null){
         goToLogin("unauthenticated");
         return;
@@ -39,7 +41,7 @@ function exitStore(){
 
 function renderPoints(){
     $.ajax({
-        url: 'dsaApp/users/puntos/' + username,
+        url: 'dsaApp/users/puntos/' + userID,
         method: 'GET',
         statusCode: {
             200: (response) => {
@@ -53,7 +55,7 @@ function renderPoints(){
 // render the number of coins that the user has
 function renderCoins(){
     $.ajax({
-        url: 'dsaApp/shop/money/' + username,
+        url: 'dsaApp/shop/money/' + userID,
         method: 'GET',
 
         statusCode: {
@@ -71,9 +73,9 @@ function renderStoreItems(items, listId) {
     list.empty(); // Lo he usado para limpiar la lista antes de añadir nuevos elementos pa evitar errores
     storeItems.clear();
     items.forEach(item => {
-        storeItems.set(item.name, item);
-        list.append(`<li class="list-group-item list-group-item-action d-flex" onclick="storeItemClick('${item.name}')">
-                        <img src="${item.URL}" class="item-image mr-2">
+        storeItems.set(item.ID, item);
+        list.append(`<li class="list-group-item list-group-item-action d-flex" onclick="storeItemClick('${item.name}', '${item.ID}')">
+                        <img src="${item.url}" class="item-image mr-2">
                         <div style="flex-grow: 1">
                             <div class="justify-content-between d-flex">
                                 <h5>${item.name}</h5>
@@ -110,7 +112,7 @@ function renderUserItems(items) {
     items.forEach(item => {
         inventory.append(`
             <div>
-                <img src="${storeItems.get(item.name).URL}">
+                <img src="${storeItems.get(item.objectID).url}">
                 <div>${item.quantity}</div>
             </div>
             `);
@@ -119,7 +121,7 @@ function renderUserItems(items) {
 
 function loadUserItems() {
     $.ajax({
-        url: 'dsaApp/users/getObjects/' + username,
+        url: 'dsaApp/users/getObjects/' + userID,
         method: 'GET',
         statusCode: {
             200: (items) => {
@@ -142,7 +144,7 @@ function loadUserItems() {
     });
 }
 
-function storeItemClick(itemName){
+function storeItemClick(itemName, itemID){
     $("#shopError").hide();
     $("#buyOverlay").fadeIn(150);
     $("#buyCard").show();
@@ -150,7 +152,7 @@ function storeItemClick(itemName){
     $("#buyCard div h5").text("Comprar " + itemName);
     $("#buyCard div div p").text("Cuántas unidades quieres?");
     $("#buyUnits").val(1)
-    itemToBuy = itemName
+    itemToBuy = itemID
 }
 
 function closeOverlay(){
@@ -171,7 +173,7 @@ function buyItem(pointerEvent){
     }
 
     $.ajax({
-        url: `dsaApp/shop/buy/${itemToBuy}/${username}/${units}`,
+        url: `dsaApp/shop/buy/${itemToBuy}/${userID}/${units}`,
         method: "POST",
         statusCode: {
             200: () => {
