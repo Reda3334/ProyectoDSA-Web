@@ -85,7 +85,7 @@ function login() {
                 $("#loginLoading").hide();
                 console.log(response);
                 localStorage.setItem('username', loginUsername); // Save username
-                localStorage.setItem('userID', response.ID);
+                localStorage.setItem('userID', response.id);
                 window.location.href = 'index.html';
             }
         }

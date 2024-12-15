@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="EditProfileScript.js"></script>
+        <title>Banania</title>
+    </head>
+    <body>
+        <nav class="navbar bg-light" style="flex: 0 1 auto">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h5">Banania</span>
+                <button class="btn" onclick="exit()">Volver</button>
+            </div>
+        </nav>
+
+        <div class="container container-sm mt-5">
+            <div class="card p-3">
+                <p><strong>Nombre de usuario: </strong><span id="username"></span></p>
+                <p><strong>Correo electrónico: </strong><span id="email"></span></p>
+                <p><strong>Monedas: </strong><span id="money"></span></p>
+                <p><strong>Puntos: </strong><span id="points"></span></p>
+
+                <h1 class="text-center mb-2 mt-5">Editar perfil</h1>
+                
+                <h5 class="mt-2">Cambiar nombre de usuario</h3>
+                <div class="input-group mt-1">
+                    <input type="text" class="form-control" placeholder="Nuevo nombre de usuario" id="new-username">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="cambiarNombre()">Cambiar</button>
+                    </div>
+                </div>
+                <p class="error" id="username-error"></p>
+                <p class="success" id="username-success"></p>
+                
+                <h5 class="mt-2">Cambiar correo electrónico</h3>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Nuevo correo electrónico" id="new-email">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="cambiarCorreo()">Cambiar</button>
+                    </div>
+                </div>
+                <p class="error" id="email-error"></p>
+                <p class="success" id="email-success"></p>
+
+                <h5 class="mt-2">Cambiar contraseña</h3>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Contraseña actual" id="current-password">
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Nueva contraseña" id="new-password">
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Repetir contraseña" id="repeat-password">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="changePassword()">Cambiar</button>
+                    </div>
+                </div>
+                <p class="error" id="password-error"></p>
+                <p class="success" id="password-success"></p>
+            </div>
+        </div>
+    </body>
+</html>
+
+<style>
+.error{
+    color: red;
+    display: none;
+}
+.success{
+    color: green;
+    display: none;
+}
+</style>

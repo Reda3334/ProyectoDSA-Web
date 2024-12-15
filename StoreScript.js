@@ -73,8 +73,8 @@ function renderStoreItems(items, listId) {
     list.empty(); // Lo he usado para limpiar la lista antes de añadir nuevos elementos pa evitar errores
     storeItems.clear();
     items.forEach(item => {
-        storeItems.set(item.ID, item);
-        list.append(`<li class="list-group-item list-group-item-action d-flex" onclick="storeItemClick('${item.name}', '${item.ID}')">
+        storeItems.set(item.id, item);
+        list.append(`<li class="list-group-item list-group-item-action d-flex" onclick="storeItemClick('${item.name}', '${item.id}')">
                         <img src="${item.url}" class="item-image mr-2">
                         <div style="flex-grow: 1">
                             <div class="justify-content-between d-flex">
