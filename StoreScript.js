@@ -81,7 +81,7 @@ function renderStoreItems(items, listId) {
                                 <h5>${item.name}</h5>
                                 <span>${item.price} <img src="images/coin.png" style="height: 1em"></span>
                             </div>
-                            <p class="mb-0">{{descripció}}</p>
+                            <p class="mb-0">${item.description}</p>
                         </div>
                     </li>`);
     });
@@ -112,7 +112,7 @@ function renderUserItems(items) {
     items.forEach(item => {
         inventory.append(`
             <div>
-                <img src="${storeItems.get(item.objectID).url}">
+                <img src="${item.url}">
                 <div>${item.quantity}</div>
             </div>
             `);
